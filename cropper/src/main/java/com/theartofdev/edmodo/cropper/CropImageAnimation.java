@@ -53,7 +53,7 @@ final class CropImageAnimation extends Animation implements Animation.AnimationL
         mImageView = cropImageView;
         mCropOverlayView = cropOverlayView;
 
-        setDuration(300);
+        setDuration(3000);
         setFillAfter(true);
         setInterpolator(new AccelerateDecelerateInterpolator());
         setAnimationListener(this);
