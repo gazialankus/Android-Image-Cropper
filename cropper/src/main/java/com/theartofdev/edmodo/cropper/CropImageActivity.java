@@ -26,6 +26,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -60,11 +61,11 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crop_image_activity);
 
-        mCropImageView = (CropImageView) findViewById(R.id.cropImageView);
+        mCropImageView = findViewById(R.id.cropImageView);
 
-        Intent intent = getIntent();
-        mCropImageUri = intent.getParcelableExtra(CropImage.CROP_IMAGE_EXTRA_SOURCE);
-        mOptions = intent.getParcelableExtra(CropImage.CROP_IMAGE_EXTRA_OPTIONS);
+        Bundle bundle = getIntent().getBundleExtra(CropImageOptions.BUNDLE_KEY);
+        mCropImageUri = bundle.getParcelable(CropImage.CROP_IMAGE_EXTRA_SOURCE);
+        mOptions = bundle.getParcelable(CropImage.CROP_IMAGE_EXTRA_OPTIONS);
 
         if (savedInstanceState == null) {
             if (mCropImageUri == null || mCropImageUri.equals(Uri.EMPTY)) {
@@ -85,7 +86,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            String title = mOptions.activityTitle != null && !mOptions.activityTitle.isEmpty()
+            CharSequence title = mOptions.activityTitle != null && mOptions.activityTitle.length() > 0
                     ? mOptions.activityTitle
                     : getResources().getString(R.string.crop_image_activity_title);
             actionBar.setTitle(title);
@@ -122,13 +123,18 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
             menu.removeItem(R.id.crop_image_menu_flip);
         }
 
+        if (mOptions.cropMenuCropButtonTitle != null) {
+            menu.findItem(R.id.crop_image_menu_crop).setTitle(mOptions.cropMenuCropButtonTitle);
+        }
+
         Drawable cropIcon = null;
         try {
-            cropIcon = ContextCompat.getDrawable(this, R.drawable.crop_image_menu_crop);
-            if (cropIcon != null) {
+            if (mOptions.cropMenuCropButtonIcon != 0) {
+                cropIcon = ContextCompat.getDrawable(this, mOptions.cropMenuCropButtonIcon);
                 menu.findItem(R.id.crop_image_menu_crop).setIcon(cropIcon);
             }
         } catch (Exception e) {
+            Log.w("AIC", "Failed to read menu crop drawable", e);
         }
 
         if (mOptions.activityMenuIconColor != 0) {
@@ -139,7 +145,6 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
                 updateMenuItemIconColor(menu, R.id.crop_image_menu_crop, mOptions.activityMenuIconColor);
             }
         }
-
         return true;
     }
 
@@ -211,7 +216,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
                 // required permissions granted, start crop image activity
                 mCropImageView.setImageUriAsync(mCropImageUri);
             } else {
-                Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.crop_image_activity_no_permissions, Toast.LENGTH_LONG).show();
                 setResultCancel();
             }
         }
@@ -334,6 +339,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
                     menuItemIcon.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
                     menuItem.setIcon(menuItemIcon);
                 } catch (Exception e) {
+                    Log.w("AIC", "Failed to update menu item color", e);
                 }
             }
         }

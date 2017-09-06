@@ -19,6 +19,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
@@ -27,6 +28,8 @@ import android.util.TypedValue;
  * Initialized with default values.
  */
 public class CropImageOptions implements Parcelable {
+
+    static final String BUNDLE_KEY = "bundle";
 
     public static final Creator<CropImageOptions> CREATOR = new Creator<CropImageOptions>() {
         @Override
@@ -87,10 +90,10 @@ public class CropImageOptions implements Parcelable {
      */
     public boolean autoZoomEnabled;
 
-  /**
-   * if multi-touch should be enabled on the crop box
-   * default: false
-   */
+    /**
+     * if multi-touch should be enabled on the crop box
+     * default: false
+     */
     public boolean multiTouchEnabled;
 
     /**
@@ -196,7 +199,7 @@ public class CropImageOptions implements Parcelable {
     /**
      * the title of the {@link CropImageActivity}
      */
-    public String activityTitle;
+    public CharSequence activityTitle;
 
     /**
      * the color to use for action bar items icons
@@ -279,6 +282,16 @@ public class CropImageOptions implements Parcelable {
     public boolean flipVertically;
 
     /**
+     * optional, the text of the crop menu crop button
+     */
+    public CharSequence cropMenuCropButtonTitle;
+
+    /**
+     * optional image resource to be used for crop menu crop icon instead of text
+     */
+    public int cropMenuCropButtonIcon;
+
+    /**
      * Init options with defaults.
      */
     public CropImageOptions() {
@@ -338,6 +351,9 @@ public class CropImageOptions implements Parcelable {
         rotationDegrees = 90;
         flipHorizontally = false;
         flipVertically = false;
+        cropMenuCropButtonTitle = null;
+
+        cropMenuCropButtonIcon = 0;
     }
 
     /**
@@ -373,7 +389,7 @@ public class CropImageOptions implements Parcelable {
         minCropResultHeight = in.readInt();
         maxCropResultWidth = in.readInt();
         maxCropResultHeight = in.readInt();
-        activityTitle = in.readString();
+        activityTitle = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
         activityMenuIconColor = in.readInt();
         outputUri = in.readParcelable(Uri.class.getClassLoader());
         outputCompressFormat = Bitmap.CompressFormat.valueOf(in.readString());
@@ -390,6 +406,8 @@ public class CropImageOptions implements Parcelable {
         rotationDegrees = in.readInt();
         flipHorizontally = in.readByte() != 0;
         flipVertically = in.readByte() != 0;
+        cropMenuCropButtonTitle = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
+        cropMenuCropButtonIcon = in.readInt();
     }
 
     @Override
@@ -423,7 +441,7 @@ public class CropImageOptions implements Parcelable {
         dest.writeInt(minCropResultHeight);
         dest.writeInt(maxCropResultWidth);
         dest.writeInt(maxCropResultHeight);
-        dest.writeString(activityTitle);
+        TextUtils.writeToParcel(activityTitle, dest, flags);
         dest.writeInt(activityMenuIconColor);
         dest.writeParcelable(outputUri, flags);
         dest.writeString(outputCompressFormat.name());
@@ -440,6 +458,8 @@ public class CropImageOptions implements Parcelable {
         dest.writeInt(rotationDegrees);
         dest.writeByte((byte) (flipHorizontally ? 1 : 0));
         dest.writeByte((byte) (flipVertically ? 1 : 0));
+        TextUtils.writeToParcel(cropMenuCropButtonTitle, dest, flags);
+        dest.writeInt(cropMenuCropButtonIcon);
     }
 
     @Override

@@ -30,9 +30,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -138,6 +140,17 @@ public final class CropImage {
      */
     public static void startPickImageActivity(@NonNull Activity activity) {
         activity.startActivityForResult(getPickImageChooserIntent(activity), PICK_IMAGE_CHOOSER_REQUEST_CODE);
+    }
+
+    /**
+     * Same as {@link #startPickImageActivity(Activity) startPickImageActivity} method but instead
+     * of being called and returning to an Activity, this method can be called and return to a Fragment.
+     *
+     * @param context The Fragments context. Use getContext()
+     * @param fragment The calling Fragment to start and return the image to
+     */
+    public static void startPickImageActivity(@NonNull Context context, @NonNull Fragment fragment) {
+        fragment.startActivityForResult(getPickImageChooserIntent(context),PICK_IMAGE_CHOOSER_REQUEST_CODE);
     }
 
     /**
@@ -442,8 +455,10 @@ public final class CropImage {
 
             Intent intent = new Intent();
             intent.setClass(context, cls);
-            intent.putExtra(CROP_IMAGE_EXTRA_SOURCE, mSource);
-            intent.putExtra(CROP_IMAGE_EXTRA_OPTIONS, mOptions);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(CROP_IMAGE_EXTRA_SOURCE, mSource);
+            bundle.putParcelable(CROP_IMAGE_EXTRA_OPTIONS, mOptions);
+            intent.putExtra(CropImageOptions.BUNDLE_KEY, bundle);
             return intent;
         }
 
@@ -742,7 +757,7 @@ public final class CropImage {
          * the title of the {@link CropImageActivity}.<br>
          * <i>Default: ""</i>
          */
-        public ActivityBuilder setActivityTitle(String activityTitle) {
+        public ActivityBuilder setActivityTitle(CharSequence activityTitle) {
             mOptions.activityTitle = activityTitle;
             return this;
         }
@@ -883,6 +898,25 @@ public final class CropImage {
          */
         public ActivityBuilder setFlipVertically(boolean flipVertically) {
             mOptions.flipVertically = flipVertically;
+            return this;
+        }
+
+        /**
+         * optional, set crop menu crop button title.<br>
+         * <i>Default: null, will use resource string: crop_image_menu_crop</i>
+         */
+        public ActivityBuilder setCropMenuCropButtonTitle(CharSequence title) {
+            mOptions.cropMenuCropButtonTitle = title;
+            return this;
+        }
+
+
+        /**
+         * Image resource id to use for crop icon instead of text.<br>
+         * <i>Default: 0</i>
+         */
+        public ActivityBuilder setCropMenuCropButtonIcon(@DrawableRes int drawableResource) {
+            mOptions.cropMenuCropButtonIcon = drawableResource;
             return this;
         }
     }

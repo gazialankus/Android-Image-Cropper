@@ -36,7 +36,11 @@ public class MainActivity extends AppCompatActivity {
     public void onSelectImageClick(View view) {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
-                .setMultiTouchEnabled(true)
+                .setActivityTitle("My Crop")
+                .setCropShape(CropImageView.CropShape.OVAL)
+                .setCropMenuCropButtonTitle("Done")
+                .setRequestedSize(400, 400)
+                .setCropMenuCropButtonIcon(R.drawable.ic_launcher)
                 .start(this);
     }
 
