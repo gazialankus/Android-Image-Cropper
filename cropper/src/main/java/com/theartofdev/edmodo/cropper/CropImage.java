@@ -919,6 +919,15 @@ public final class CropImage {
             mOptions.cropMenuCropButtonIcon = drawableResource;
             return this;
         }
+
+        /**
+         * Zoom animation duration in milliseconds.<br>
+         * <i>Default: 300</i>
+         */
+        public ActivityBuilder setZoomAnimationDuration(long durationMillis) {
+            mOptions.zoomAnimationDuration = durationMillis;
+            return this;
+        }
     }
     //endregion
 

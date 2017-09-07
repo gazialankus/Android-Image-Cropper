@@ -292,6 +292,11 @@ public class CropImageOptions implements Parcelable {
     public int cropMenuCropButtonIcon;
 
     /**
+     * optional zoom animation duration in milliseconds
+      */
+    public long zoomAnimationDuration;
+
+    /**
      * Init options with defaults.
      */
     public CropImageOptions() {
@@ -354,6 +359,7 @@ public class CropImageOptions implements Parcelable {
         cropMenuCropButtonTitle = null;
 
         cropMenuCropButtonIcon = 0;
+        zoomAnimationDuration = 300;
     }
 
     /**
@@ -408,6 +414,7 @@ public class CropImageOptions implements Parcelable {
         flipVertically = in.readByte() != 0;
         cropMenuCropButtonTitle = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
         cropMenuCropButtonIcon = in.readInt();
+        zoomAnimationDuration = in.readLong();
     }
 
     @Override
@@ -460,6 +467,7 @@ public class CropImageOptions implements Parcelable {
         dest.writeByte((byte) (flipVertically ? 1 : 0));
         TextUtils.writeToParcel(cropMenuCropButtonTitle, dest, flags);
         dest.writeInt(cropMenuCropButtonIcon);
+        dest.writeLong(zoomAnimationDuration);
     }
 
     @Override

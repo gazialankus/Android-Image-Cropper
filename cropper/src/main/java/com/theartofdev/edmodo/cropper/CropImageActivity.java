@@ -67,6 +67,8 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
         mCropImageUri = bundle.getParcelable(CropImage.CROP_IMAGE_EXTRA_SOURCE);
         mOptions = bundle.getParcelable(CropImage.CROP_IMAGE_EXTRA_OPTIONS);
 
+        mCropImageView.setZoomAnimationDuration(mOptions.zoomAnimationDuration);
+
         if (savedInstanceState == null) {
             if (mCropImageUri == null || mCropImageUri.equals(Uri.EMPTY)) {
                 if (CropImage.isExplicitCameraPermissionRequired(this)) {

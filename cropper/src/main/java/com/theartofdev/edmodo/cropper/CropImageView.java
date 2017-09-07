@@ -176,6 +176,11 @@ public class CropImageView extends FrameLayout {
     private float mZoom = 1;
 
     /**
+     * Zoom animation duration in milliseconds
+     */
+    private long mZoomAnimationDuration;
+
+    /**
      * The X offset that the cropping image was translated after zooming
      */
     private float mZoomOffsetX;
@@ -296,6 +301,7 @@ public class CropImageView extends FrameLayout {
         mShowProgressBar = options.showProgressBar;
         mFlipHorizontally = options.flipHorizontally;
         mFlipVertically = options.flipVertically;
+        mZoomAnimationDuration = options.zoomAnimationDuration;
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.crop_image_view, this, true);
@@ -337,6 +343,13 @@ public class CropImageView extends FrameLayout {
             mZoomOffsetX = mZoomOffsetY = 0;
             mCropOverlayView.resetCropOverlayView();
             requestLayout();
+        }
+    }
+
+    public void setZoomAnimationDuration(long durationMillis) {
+        mZoomAnimationDuration = durationMillis;
+        if (mAnimation != null) {
+            mAnimation.setDuration(mZoomAnimationDuration);
         }
     }
 
@@ -1445,6 +1458,7 @@ public class CropImageView extends FrameLayout {
                         if (mAnimation == null) {
                             // lazy create animation single instance
                             mAnimation = new CropImageAnimation(mImageView, mCropOverlayView);
+                            mAnimation.setDuration(mZoomAnimationDuration);
                         }
                         // set the state for animation to start from
                         mAnimation.setStartState(mImagePoints, mImageMatrix);
