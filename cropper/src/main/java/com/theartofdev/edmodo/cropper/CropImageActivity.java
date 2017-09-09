@@ -26,6 +26,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,6 +56,29 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
      * the options that were set for the crop image
      */
     private CropImageOptions mOptions;
+
+    private static final int sizeLevel = 2;
+
+    public static void setSizedTitle(AppCompatActivity activity, CharSequence title) {
+        if (sizeLevel > 0) {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < sizeLevel; ++i) {
+                sb.append("<big>");
+            }
+
+            sb.append(title);
+
+            for (int i = 0; i < sizeLevel; ++i) {
+                sb.append("</big>");
+            }
+            Spanned tit = Html.fromHtml(sb.toString());
+            ActionBar actionBar = activity.getSupportActionBar();
+            actionBar.setTitle(tit);
+        } else {
+            activity.setTitle(title);
+        }
+    }
 
     @Override
     @SuppressLint("NewApi")
@@ -91,7 +116,8 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
             CharSequence title = mOptions.activityTitle != null && mOptions.activityTitle.length() > 0
                     ? mOptions.activityTitle
                     : getResources().getString(R.string.crop_image_activity_title);
-            actionBar.setTitle(title);
+            //actionBar.setTitle(title);
+            setSizedTitle(this, title);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
