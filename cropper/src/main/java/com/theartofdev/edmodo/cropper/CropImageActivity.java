@@ -18,6 +18,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -31,6 +32,7 @@ import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -153,6 +155,13 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
 
         if (mOptions.cropMenuCropButtonTitle != null) {
             menu.findItem(R.id.crop_image_menu_crop).setTitle(mOptions.cropMenuCropButtonTitle);
+
+            MenuItem item = menu.findItem(R.id.crop_image_menu_crop);
+            TextView tv = new TextView(this);
+            tv.setText("HELE");
+            tv.setTextColor(Color.RED);
+            tv.setBackgroundColor(Color.BLUE);
+            item.setActionView(tv);
         }
 
         Drawable cropIcon = null;
@@ -173,6 +182,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
                 updateMenuItemIconColor(menu, R.id.crop_image_menu_crop, mOptions.activityMenuIconColor);
             }
         }
+
         return true;
     }
 
