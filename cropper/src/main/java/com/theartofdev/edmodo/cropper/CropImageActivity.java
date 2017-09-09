@@ -181,7 +181,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
         if (item != null) {
             TextView tv = new TextView(this);
             tv.setText("CROP");
-            tv.setTextSize(35);
+            tv.setTextSize(30);
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
