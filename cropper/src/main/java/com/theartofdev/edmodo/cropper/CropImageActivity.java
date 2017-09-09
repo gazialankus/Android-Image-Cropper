@@ -32,6 +32,7 @@ import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -176,12 +177,18 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
             }
         }
 
-        MenuItem item = menu.findItem(R.id.crop_image_menu_crop);
+        final MenuItem item = menu.findItem(R.id.crop_image_menu_crop);
         if (item != null) {
             TextView tv = new TextView(this);
             tv.setText("HELE");
             tv.setTextColor(Color.RED);
             tv.setBackgroundColor(Color.BLUE);
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onOptionsItemSelected(item);
+                }
+            });
             item.setActionView(tv);
         }
 
