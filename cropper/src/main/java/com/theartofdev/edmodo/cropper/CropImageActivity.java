@@ -190,6 +190,12 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
             tv.setText(spanString);
 
             tv.setTextSize(25);
+            tv.setTextColor(Color.WHITE);
+
+            float scale = getResources().getDisplayMetrics().density;
+            int dpAsPixels = (int) (2 * scale + 0.5f);
+            tv.setPadding(dpAsPixels, 0, 0, dpAsPixels);
+
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
