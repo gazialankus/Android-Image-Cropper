@@ -155,13 +155,6 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
 
         if (mOptions.cropMenuCropButtonTitle != null) {
             menu.findItem(R.id.crop_image_menu_crop).setTitle(mOptions.cropMenuCropButtonTitle);
-
-            MenuItem item = menu.findItem(R.id.crop_image_menu_crop);
-            TextView tv = new TextView(this);
-            tv.setText("HELE");
-            tv.setTextColor(Color.RED);
-            tv.setBackgroundColor(Color.BLUE);
-            item.setActionView(tv);
         }
 
         Drawable cropIcon = null;
@@ -181,6 +174,15 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
             if (cropIcon != null) {
                 updateMenuItemIconColor(menu, R.id.crop_image_menu_crop, mOptions.activityMenuIconColor);
             }
+        }
+
+        MenuItem item = menu.findItem(R.id.crop_image_menu_crop);
+        if (item != null) {
+            TextView tv = new TextView(this);
+            tv.setText("HELE");
+            tv.setTextColor(Color.RED);
+            tv.setBackgroundColor(Color.BLUE);
+            item.setActionView(tv);
         }
 
         return true;
