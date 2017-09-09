@@ -20,6 +20,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,7 +29,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -180,14 +183,20 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
         final MenuItem item = menu.findItem(R.id.crop_image_menu_crop);
         if (item != null) {
             TextView tv = new TextView(this);
-            tv.setText("CROP");
-            tv.setTextSize(30);
+
+            String tempString="CROP";
+            SpannableString spanString = new SpannableString(tempString);
+            spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+            tv.setText(spanString);
+
+            tv.setTextSize(25);
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     onOptionsItemSelected(item);
                 }
             });
+
             item.setActionView(tv);
         }
 
