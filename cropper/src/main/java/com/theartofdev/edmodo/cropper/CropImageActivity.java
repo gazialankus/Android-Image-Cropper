@@ -180,9 +180,8 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
         final MenuItem item = menu.findItem(R.id.crop_image_menu_crop);
         if (item != null) {
             TextView tv = new TextView(this);
-            tv.setText("HELE");
-            tv.setTextColor(Color.RED);
-            tv.setBackgroundColor(Color.BLUE);
+            tv.setText("CROP");
+            tv.setTextSize(35);
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
