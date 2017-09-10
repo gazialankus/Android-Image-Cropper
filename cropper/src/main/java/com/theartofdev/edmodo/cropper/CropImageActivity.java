@@ -63,7 +63,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
      */
     private CropImageOptions mOptions;
 
-    private static final int sizeLevel = 2;
+    private static final int sizeLevel = 1;
 
     public static void setSizedTitle(AppCompatActivity activity, CharSequence title) {
         if (sizeLevel > 0) {
@@ -189,7 +189,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
             spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
             tv.setText(spanString);
 
-            tv.setTextSize(25);
+            tv.setTextSize(15 + sizeLevel * 5);
             tv.setTextColor(Color.WHITE);
 
             float scale = getResources().getDisplayMetrics().density;
